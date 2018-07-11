@@ -22,25 +22,19 @@ public class TextProcessorService implements ProcessorService {
 			log.info("Nothing to process!");
 			return null;
 		}
-		long id = 0;
+		long id = 1;
 		List<MovieSettings> movieSettingsList = new ArrayList();
 		StringBuilder sb = new StringBuilder("[");
 		
 		log.info("Starting text processing...");
 		for(String data : settingsList) {
-			// sb.append( new MovieSettings(++id, processSettingLine(data)).toJSON() ).append(", ");
-			MovieSettings settingItem = new MovieSettings(++id, processSettingLine(data));
-			int indexOfItem = -1;
+			MovieSettings settingItem = new MovieSettings(id, processSettingLine(data));
+			
 			if(!movieSettingsList.contains(settingItem)) {
 				movieSettingsList.add(settingItem);
-				indexOfItem = movieSettingsList.indexOf(settingItem);
-			} else {
-				--id;
-			}
-			
-			if(indexOfItem != -1) {
 				sb.append( settingItem.toJSON() ).append(", ");
-			}
+				id++;
+			} 
 		}
 		int lastComma = sb.lastIndexOf(",");
 		sb.deleteCharAt(lastComma).append("]");
