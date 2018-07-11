@@ -3,8 +3,6 @@ package br.com.code.avenue.service.impl;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +13,6 @@ import br.com.code.avenue.service.ProcessorService;
 import br.com.code.avenue.service.ReaderService;
 
 @Service
-@SuppressWarnings({ "rawtypes", "unchecked" })
 public class FileReaderService implements ReaderService { 
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
@@ -23,12 +20,6 @@ public class FileReaderService implements ReaderService {
 	ProcessorService processorService;
 	
 	private static final String FILENAME = "upload-dir\\screenplay.txt";
-	
-	private Map<String, Map> settingsMap = new HashMap(); 
-	
-	private Map<String, Map> charactersMap = new HashMap();
-	
-	private Map<String, Long> wordsMap = new HashMap();
 	
 	public void readFromSource( /*InputStream inputStream */ ) throws Exception {
 		FileReader fileReader = new FileReader(FILENAME);
@@ -55,17 +46,5 @@ public class FileReaderService implements ReaderService {
 				log.error("error closing resources", e);
 			}
 		}
-	}
-
-	public Map<String, Map> getSettingsMap() {
-		return settingsMap;
-	}
-
-	public Map<String, Map> getCharactersMap() {
-		return charactersMap;
-	}
-
-	public Map<String, Long> getWordsMap() {
-		return wordsMap;
 	}	
 }
