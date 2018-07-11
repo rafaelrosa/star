@@ -1,6 +1,6 @@
 package br.com.code.avenue.model;
 
-public class HttpMessage {
+public class HttpMessage { 
 	private String message;
 	
 	public HttpMessage(String message) {

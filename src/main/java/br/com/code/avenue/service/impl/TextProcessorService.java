@@ -1,5 +1,6 @@
 package br.com.code.avenue.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,24 +9,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import br.com.code.avenue.model.MovieSettings;
+import br.com.code.avenue.model.MovieSetting;
 import br.com.code.avenue.service.ProcessorService;
 
-@Service
-public class TextProcessorService implements ProcessorService {
+@Service("processorService")
+@SuppressWarnings({ "rawtypes", "unchecked" })
+public class TextProcessorService implements ProcessorService { 
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
-	public String processTextList(List<String> textList) {
-		if(textList == null || textList.isEmpty()) {
+	public String processSettingsList(List<String> settingsList) {
+		if(settingsList == null || settingsList.isEmpty()) {
 			log.info("Nothing to process!");
 			return null;
 		}
-		long id = 0;
+		long id = 1;
+		List<MovieSetting> movieSettingsList = new ArrayList();
 		StringBuilder sb = new StringBuilder("[");
 		
 		log.info("Starting text processing...");
-		for(String data : textList) {
-			sb.append( new MovieSettings(++id, processLine(data)).toJSON() ).append(", ");
+		for(String data : settingsList) {
+			MovieSetting settingItem = new MovieSetting(id, processSettingLine(data));
+			
+			if(!movieSettingsList.contains(settingItem)) {
+				movieSettingsList.add(settingItem);
+				sb.append( settingItem.toJSON() ).append(", ");
+				id++;
+			} 
 		}
 		int lastComma = sb.lastIndexOf(",");
 		sb.deleteCharAt(lastComma).append("]");
@@ -34,7 +43,7 @@ public class TextProcessorService implements ProcessorService {
 		return sb.toString();
 	}
 	
-	public String processLine(String line) {
+	public String processSettingLine(String line) {
 		if(line.indexOf("-") != -1) {
 			return line.substring( line.indexOf(" "), line.indexOf("-") ).trim();
 		}
@@ -42,7 +51,6 @@ public class TextProcessorService implements ProcessorService {
 		return line.substring( line.indexOf(" ")+1 );
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Map textListToMap(List<String> textList) {
 		if(textList == null || textList.isEmpty()) {
 			log.info("Nothing to process!");
@@ -52,7 +60,7 @@ public class TextProcessorService implements ProcessorService {
 		Map<String, Long> settingsMap = new HashMap();
 		log.info("Starting text processing...");
 		for(String data : textList) {
-			String key = processLine(data);
+			String key = processSettingLine(data);
 			if(settingsMap.get(key) == null) {
 				settingsMap.put(key, 1L);
 			} else {
