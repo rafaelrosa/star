@@ -12,7 +12,7 @@ import br.com.code.avenue.model.MovieSettings;
 import br.com.code.avenue.service.ProcessorService;
 
 @Service
-public class TextProcessorService implements ProcessorService {
+public class TextProcessorService implements ProcessorService { 
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	public String processTextList(List<String> textList) {

@@ -17,7 +17,7 @@ import br.com.code.avenue.service.ReaderService;
 
 @Service
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class FileReaderService implements ReaderService {
+public class FileReaderService implements ReaderService { 
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Autowired

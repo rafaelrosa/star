@@ -3,7 +3,7 @@ package br.com.code.avenue.model;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
-public class MovieSettings {
+public class MovieSettings { 
 	private Long id;
 	private String settingName;
 	private List charactersList; 
