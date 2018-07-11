@@ -37,4 +37,29 @@ public class MovieSettings {
 	public String toJSON() {
 		return "{ \"id\": \""+id+"\", \"name\": \""+settingName+"\", \"characters\":[] }";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((settingName == null) ? 0 : settingName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MovieSettings other = (MovieSettings) obj;
+		if (settingName == null) {
+			if (other.settingName != null)
+				return false;
+		} else if (!settingName.equals(other.settingName))
+			return false;
+		return true;
+	}	
 }
