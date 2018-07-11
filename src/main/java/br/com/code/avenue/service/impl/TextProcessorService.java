@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import br.com.code.avenue.model.MovieSettings;
+import br.com.code.avenue.model.MovieSetting;
 import br.com.code.avenue.service.ProcessorService;
 
 @Service("processorService")
@@ -23,12 +23,12 @@ public class TextProcessorService implements ProcessorService {
 			return null;
 		}
 		long id = 1;
-		List<MovieSettings> movieSettingsList = new ArrayList();
+		List<MovieSetting> movieSettingsList = new ArrayList();
 		StringBuilder sb = new StringBuilder("[");
 		
 		log.info("Starting text processing...");
 		for(String data : settingsList) {
-			MovieSettings settingItem = new MovieSettings(id, processSettingLine(data));
+			MovieSetting settingItem = new MovieSetting(id, processSettingLine(data));
 			
 			if(!movieSettingsList.contains(settingItem)) {
 				movieSettingsList.add(settingItem);
