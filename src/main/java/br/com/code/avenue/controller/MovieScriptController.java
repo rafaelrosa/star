@@ -1,6 +1,6 @@
 package br.com.code.avenue.controller;
 
-import java.util.Map;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.code.avenue.constants.Messages;
 import br.com.code.avenue.model.HttpMessage;
+import br.com.code.avenue.service.ProcessorService;
 import br.com.code.avenue.service.ReaderService;
 import br.com.code.avenue.service.StorageService;
 
@@ -29,7 +30,10 @@ public class MovieScriptController {
 	private final StorageService storageService;
 	
 	@Autowired
-	ReaderService fileService;
+	ReaderService readerService;
+	
+	@Autowired
+	ProcessorService processorService;
 	
 	@Autowired
 	public MovieScriptController(StorageService storageService) {
@@ -62,33 +66,27 @@ public class MovieScriptController {
 	,	produces="application/json"
 	)
 	public ResponseEntity<String> settings() {
+		log.info("Starting analyzing settings...");
 		
-//		List<String> settingsList = null;
+		List<String> settingsList = null;
 		try {
-			fileService.readFromSource();
+			log.info("Reading file of settings...");
+			settingsList = readerService.readFromSource();
+			log.info("File of settings read!");
 		} catch (Exception e) {
 			log.error("error reading file", e);
 			return new ResponseEntity(new HttpMessage(Messages.UNEXPECTED_ERR).toJSON() , HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-//		settingsList = fileService.getSettingsList();
+		if(settingsList == null || settingsList.isEmpty()) {
+			log.info("Settings not found in script.");
+			return new ResponseEntity(new HttpMessage(Messages.settingNotFound(0)).toJSON(), HttpStatus.NOT_FOUND);
+		}
 		
-//		if(settingsList == null || settingsList.isEmpty()) {
-//			return new ResponseEntity(new HttpMessage(Messages.settingNotFound(0)).toJSON(), HttpStatus.NOT_FOUND);
-//		}
+		String settingsResult = processorService.processSettingsList(settingsList);
 		
-//		String settingsResult = processorService.processTextList(settingsList);
-		
-//		Set<String> keysSet = fileService.getCharactersMap().keySet();
-//		Iterator<String> it = keysSet.iterator();
-//		while(it.hasNext()) {
-//			String currentKey = it.next();
-//			List<String> charsList = fileService.getCharactersMap().get(currentKey);
-//		}
-		
-		Map<String, Map> settingsMap = fileService.getSettingsMap();		
-		
-		return new ResponseEntity(settingsMap, HttpStatus.OK);
+		log.info("Finishing analyzing settings!");
+		return new ResponseEntity(settingsResult, HttpStatus.OK);
 	}
 
 	@ResponseBody
