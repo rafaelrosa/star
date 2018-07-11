@@ -1,5 +1,7 @@
 package br.com.code.avenue.service;
 
+import java.util.List;
+
 public interface ReaderService { 
-	void readFromSource() throws Exception;
+	List<String> readFromSource() throws Exception;
 }
