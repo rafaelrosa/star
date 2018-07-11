@@ -6,6 +6,6 @@ import java.util.Map;
 @SuppressWarnings("rawtypes")
 public interface ProcessorService {
 	String processTextList(List<String> textList);
-	String processLine(String line);
+	String processSettingLine(String line);
 	Map textListToMap(List<String> textList);
 }

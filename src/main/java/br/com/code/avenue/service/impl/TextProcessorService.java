@@ -25,7 +25,7 @@ public class TextProcessorService implements ProcessorService {
 		
 		log.info("Starting text processing...");
 		for(String data : textList) {
-			sb.append( new MovieSettings(++id, processLine(data)).toJSON() ).append(", ");
+			sb.append( new MovieSettings(++id, processSettingLine(data)).toJSON() ).append(", ");
 		}
 		int lastComma = sb.lastIndexOf(",");
 		sb.deleteCharAt(lastComma).append("]");
@@ -34,7 +34,7 @@ public class TextProcessorService implements ProcessorService {
 		return sb.toString();
 	}
 	
-	public String processLine(String line) {
+	public String processSettingLine(String line) {
 		if(line.indexOf("-") != -1) {
 			return line.substring( line.indexOf(" "), line.indexOf("-") ).trim();
 		}
@@ -52,7 +52,7 @@ public class TextProcessorService implements ProcessorService {
 		Map<String, Long> settingsMap = new HashMap();
 		log.info("Starting text processing...");
 		for(String data : textList) {
-			String key = processLine(data);
+			String key = processSettingLine(data);
 			if(settingsMap.get(key) == null) {
 				settingsMap.put(key, 1L);
 			} else {
