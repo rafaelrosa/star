@@ -3,12 +3,12 @@ package br.com.code.avenue.model;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
-public class MovieSettings { 
+public class MovieSetting { 
 	private Long id;
 	private String settingName;
 	private List charactersList; 
 	
-	public MovieSettings(Long id, String settingName) {
+	public MovieSetting(Long id, String settingName) {
 		this.id = id;
 		this.settingName = settingName;
 		this.charactersList = null;
@@ -29,7 +29,7 @@ public class MovieSettings {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("MovieSettings [id=").append(id).append(", settingName=").append(settingName)
+		builder.append("MovieSetting [id=").append(id).append(", settingName=").append(settingName)
 				.append(", charactersList=").append(charactersList).append("]");
 		return builder.toString();
 	}
@@ -54,7 +54,7 @@ public class MovieSettings {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MovieSettings other = (MovieSettings) obj;
+		MovieSetting other = (MovieSetting) obj;
 		if (settingName == null) {
 			if (other.settingName != null)
 				return false;
