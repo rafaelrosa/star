@@ -6,7 +6,7 @@ import java.util.List;
 public class MovieSetting { 
 	private Long id;
 	private String settingName;
-	private List charactersList; 
+	private List<MovieCharacter> charactersList; 
 	
 	public MovieSetting(Long id, String settingName) {
 		this.id = id;
@@ -25,6 +25,14 @@ public class MovieSetting {
 	public List getCharactersList() {
 		return charactersList;
 	}
+	
+	public void setCharactersList(List<MovieCharacter> charactersList) {
+		if(charactersList != null) {
+			this.charactersList = charactersList;
+		}
+		else 
+			this.charactersList.addAll(charactersList);
+	}
 
 	@Override
 	public String toString() {
@@ -35,7 +43,19 @@ public class MovieSetting {
 	}
 	
 	public String toJSON() {
-		return "{ \"id\": \""+id+"\", \"name\": \""+settingName+"\", \"characters\":[] }";
+		return "{ \"id\": \""+id+"\", \"name\": \""+settingName+"\", \"characters\":"+charsListToJSON()+" }";
+	}
+	
+	private String charsListToJSON() {
+		StringBuilder sb = new StringBuilder("[");
+		for (MovieCharacter movieCharacter : charactersList) {
+			sb.append(movieCharacter.toJSON()).append(",");
+		}
+		int lastComma = sb.lastIndexOf(",");
+		if(lastComma > 0) sb.deleteCharAt(lastComma);
+		
+		sb.append("]");
+		return sb.toString();
 	}
 
 	@Override
